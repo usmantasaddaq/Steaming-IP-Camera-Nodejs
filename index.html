@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IP Camera Stream</title>
+  </head>
+  <body>
+    <video id="video" width="640" height="480" autoplay></video>
+
+    <script>
+      const video = document.getElementById('video');
+      const ws = new WebSocket('ws://localhost:3000');
+
+      ws.binaryType = 'arraybuffer';
+
+      ws.onmessage = (event) => {
+        const arrayBuffer = event.data;
+        const blob = new Blob([arrayBuffer], { type: 'video/mp4' });
+        const url = window.URL.createObjectURL(blob);
+        video.src = url;
+      };
+    </script>
+  </body>
+</html>
